@@ -1,6 +1,6 @@
 {
   "name": "@rambler-tech/widget-element",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "dist",
   "module": "dist",
   "types": "dist/index.d.ts",
