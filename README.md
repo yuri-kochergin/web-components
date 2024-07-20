@@ -2,7 +2,7 @@
 
 ## Packages
 
-<!-- - [@rambler-tech/scoped-styles](packages/scoped-styles) -->
+- [@rambler-tech/scoped-styles](packages/scoped-styles)
 
 ## Contributing
 
