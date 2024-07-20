@@ -1,0 +1,18 @@
+{
+  "extends": "@rambler-tech/ts-config/base",
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "esnext",
+    "sourceMap": false,
+    "strictPropertyInitialization": false,
+    "lib": ["dom", "esnext"],
+    "baseUrl": ".",
+    "declaration": true,
+    "paths": {
+      "@rambler-tech/*": ["./packages/*"]
+    },
+    "skipLibCheck": true
+  },
+  "include": ["packages", "types"],
+  "exclude": ["node_modules", "**/dist"]
+}

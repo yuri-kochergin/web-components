@@ -1,0 +1,55 @@
+{
+  "name": "web-components",
+  "description": "Web Components tools",
+  "scripts": {
+    "build": "lerna exec -- tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint '**/*.{js,ts,tsx}'",
+    "format": "prettier --write '**/*.{js,ts,tsx}' && eslint '**/*.{js,ts,tsx}' --fix",
+    "typecheck": "tsc --noEmit",
+    "sizecheck": "lerna exec -- tsc && size-limit",
+    "licenselint": "licenselint",
+    "docs": "typedoc",
+    "release": "lerna version && lerna publish from-package",
+    "prepare": "[ -n \"$CI\" ] && exit 0 || husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rambler-digital-solutions/web-components.git"
+  },
+  "author": "Andrey Polischuk <me@andrepolischuk.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
+    "@rambler-digital-solutions/licenselint": "^1.2.0",
+    "@rambler-tech/eslint-config": "^0.10.4",
+    "@rambler-tech/licenselint-config": "^0.0.2",
+    "@rambler-tech/prettier-config": "^0.1.0",
+    "@rambler-tech/ts-config": "^0.1.1",
+    "@rambler-tech/typedoc-config": "^0.3.1",
+    "@size-limit/preset-small-lib": "^9.0.0",
+    "@types/jest": "^29.5.5",
+    "abortcontroller-polyfill": "^1.7.5",
+    "buffer": "^6.0.3",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "lerna": "^7.3.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "size-limit": "^9.0.0",
+    "ts-jest": "^29.1.1",
+    "typedoc": "^0.25.2",
+    "typescript": "^5.2.2",
+    "whatwg-fetch": "^3.6.19"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

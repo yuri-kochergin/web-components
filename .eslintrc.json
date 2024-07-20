@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "@rambler-tech/eslint-config",
+    "@rambler-tech/eslint-config/ts",
+    "prettier"
+  ]
+}

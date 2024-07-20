@@ -1,0 +1,12 @@
+{
+  "extends": "@rambler-tech/typedoc-config",
+  "customTitle": "Web Components tools",
+  "customDescription": "Web Components tools",
+  "readme": "README.md",
+  "entryPoints": "packages/*",
+  "entryPointStrategy": "packages",
+  "out": "public",
+  "navigationLinks": {
+    "Github": "https://github.com/rambler-digital-solutions/web-components"
+  }
+}

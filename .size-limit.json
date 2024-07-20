@@ -1,0 +1,14 @@
+[
+  {
+    "path": "packages/cookie-storage/dist/index.js",
+    "limit": "990 B"
+  },
+  {
+    "path": "packages/local-storage/dist/index.js",
+    "limit": "290 B"
+  },
+  {
+    "path": "packages/session-storage/dist/index.js",
+    "limit": "290 B"
+  }
+]
