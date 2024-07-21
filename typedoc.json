@@ -1,6 +1,6 @@
 {
   "extends": "@rambler-tech/typedoc-config",
-  "customTitle": "Web Components tools",
+  "customTitle": "Web Components",
   "customDescription": "Web Components tools",
   "readme": "README.md",
   "entryPoints": "packages/*",
