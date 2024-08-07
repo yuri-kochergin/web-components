@@ -121,7 +121,7 @@ export class WidgetElement extends HTMLElement {
   }
 
   /** Dispatch event */
-  emit(eventType: string, detail?: Record<string, any>) {
-    this.dispatchEvent(new CustomEvent(eventType, {detail}))
+  emit(eventType: string, options?: CustomEventInit) {
+    this.dispatchEvent(new CustomEvent(eventType, options))
   }
 }
