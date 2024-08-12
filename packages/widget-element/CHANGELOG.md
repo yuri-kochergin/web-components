@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.1.1...@rambler-tech/widget-element@0.2.0) (2024-08-12)
+
+### Features
+
+- **widget-element:** add custom fallback ([28773f2](https://github.com/rambler-digital-solutions/web-components/commit/28773f22619fd530bc71b95c2ef5ca2133b5a48e))
+
 ## [0.1.1](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.1.0...@rambler-tech/widget-element@0.1.1) (2024-08-07)
 
 ### Bug Fixes
