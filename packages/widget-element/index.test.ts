@@ -1,6 +1,8 @@
 import {WidgetElement} from '.'
 
 class TestWidget extends WidgetElement {
+  root: ShadowRoot
+
   ready = false
   changed = false
   destroyed = false
@@ -9,7 +11,8 @@ class TestWidget extends WidgetElement {
     return ['test']
   }
 
-  initialize(_shadowRoot: ShadowRoot) {
+  initialize(shadowRoot: ShadowRoot) {
+    this.root = shadowRoot
     this.ready = true
   }
 
@@ -22,7 +25,14 @@ class TestWidget extends WidgetElement {
   }
 }
 
+class TestWidgetWithFallback extends TestWidget {
+  get fallback() {
+    return `<span>Loading...</span>`
+  }
+}
+
 TestWidget.register('test-widget')
+TestWidgetWithFallback.register('test-widget-fallback')
 
 test('widget is ready', async () => {
   const widget = document.createElement('test-widget') as TestWidget
@@ -70,10 +80,46 @@ test('widget is destroyed', async () => {
   expect(widget.destroyed).toBe(false)
   expect(onDestroy).toHaveBeenCalledTimes(0)
 
-  document.body.removeChild(widget)
+  widget.remove()
 
   await Promise.resolve()
 
   expect(widget.destroyed).toBe(true)
   expect(onDestroy).toHaveBeenCalledTimes(1)
+})
+
+test('show widget slot as fallback', () => {
+  const widget = document.createElement('test-widget') as TestWidget
+
+  widget.innerHTML = '<span>Loading...</span>'
+
+  document.body.append(widget)
+
+  expect(widget.root.innerHTML).toBe('')
+
+  widget.showFallback()
+
+  expect(widget.root.innerHTML).toBe('<slot></slot>')
+
+  widget.hideFallback()
+
+  expect(widget.root.innerHTML).toBe('')
+})
+
+test('show custom widget fallback', () => {
+  const widget = document.createElement(
+    'test-widget-fallback'
+  ) as TestWidgetWithFallback
+
+  document.body.append(widget)
+
+  expect(widget.root.innerHTML).toBe('')
+
+  widget.showFallback()
+
+  expect(widget.root.innerHTML).toBe('<span>Loading...</span>')
+
+  widget.hideFallback()
+
+  expect(widget.root.innerHTML).toBe('')
 })

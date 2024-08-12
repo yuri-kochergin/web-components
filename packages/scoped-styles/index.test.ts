@@ -17,7 +17,7 @@ test('append styles to some element', () => {
   const sheet = ':host { background-color: white; }'
   const root = document.createElement('div')
 
-  document.body.appendChild(root)
+  document.body.append(root)
 
   registerRoot(root)
   registerStyles(sheet)
