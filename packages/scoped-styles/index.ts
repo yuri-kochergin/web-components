@@ -20,11 +20,11 @@ function injectStyles() {
       if (!sheet.element) {
         sheet.element = document.createElement('style')
         sheet.element.textContent = sheet.content
-        fragment.appendChild(sheet.element)
+        fragment.append(sheet.element)
       }
     })
 
-    stylesRoot.appendChild(fragment)
+    stylesRoot.append(fragment)
   }
 }
 
@@ -37,7 +37,16 @@ function injectStyles() {
  *
  * registerStyles(sheets)
  *
- * `<div class=${styles.container}>...</div>`
+ * class Container extends HTMLElement {
+ *   connectedCallback() {
+ *     const shadowRoot = this.attachShadow({mode: 'open'})
+ *     shadowRoot.innerHTML = `
+ *       <div class=${styles.container}>
+ *         ...
+ *       </div>
+ *     `
+ *   }
+ * }
  * ```
  */
 export function registerStyles(...sheets: string[]) {

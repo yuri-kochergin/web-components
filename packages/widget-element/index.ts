@@ -1,4 +1,5 @@
 /* eslint-disable import/no-unused-modules */
+import {getAttributesFromElement, createElementFromHtml} from './utils'
 
 /**
  * Custom Element that helps you to create widgets.
@@ -10,13 +11,18 @@
  *
  * class CustomWidget extends WidgetElement {
  *   static get observedAttributes() {
- *     return ['appId']
+ *     return ['appid']
  *   }
  *
  *   async initialize(shadowRoot: ShadowRoot) {
- *     const {appId} = this.params
+ *     const {appid} = this.params
  *     this.app = createApp(shadowRoot)
- *     await this.app.render({appId})
+ *     await this.app.render({appid})
+ *   }
+ *
+ *   attributeChanged() {
+ *     const {appid} = this.params
+ *     this.app.render({appid})
  *   }
  *
  *   destroy() {
@@ -54,7 +60,7 @@
  * ```
  */
 export class WidgetElement extends HTMLElement {
-  #fallback!: HTMLSlotElement
+  #fallback!: HTMLElement
   #shadowRoot?: ShadowRoot
 
   /** Register a widget custom element */
@@ -63,24 +69,14 @@ export class WidgetElement extends HTMLElement {
   }
 
   /** Widget params (attributes map) */
-  get params() {
-    const params: Record<string, any> = {
-      provider: this
-    }
+  get params(): Record<string, any> {
+    const params = getAttributesFromElement(this)
 
-    for (let i = 0; i < this.attributes.length; i++) {
-      const node = this.attributes.item(i)
-
-      if (node != null) {
-        params[node.nodeName] = node.nodeValue
-      }
-    }
-
-    return params
+    return {...params, provider: this}
   }
 
   async connectedCallback() {
-    this.#fallback = document.createElement('slot')
+    this.#fallback = createElementFromHtml(this.fallback)
     this.#shadowRoot = this.attachShadow({mode: 'closed'})
 
     await this.initialize(this.#shadowRoot)
@@ -110,14 +106,29 @@ export class WidgetElement extends HTMLElement {
   // eslint-disable-next-line no-empty-function
   destroy() {}
 
-  /** Show fallback (slot element) */
-  showFallback() {
-    this.#shadowRoot?.appendChild(this.#fallback)
+  /**
+   * Get fallback (slot element by default)
+   *
+   * ```ts
+   * class CustomWidget extends WidgetElement {
+   *   get fallback() {
+   *     return `<span class="${styles.loader}">Loading...</span>`
+   *   }
+   * }
+   * ```
+   */
+  get fallback() {
+    return `<slot></slot>`
   }
 
-  /** Hide fallback (slot element) */
+  /** Show fallback (slot element by default) */
+  showFallback() {
+    this.#shadowRoot?.append(this.#fallback)
+  }
+
+  /** Hide fallback (slot element by default) */
   hideFallback() {
-    this.#shadowRoot?.removeChild(this.#fallback)
+    this.#fallback?.remove()
   }
 
   /** Dispatch event */
