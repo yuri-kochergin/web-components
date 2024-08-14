@@ -1,5 +1,5 @@
 {
   "extends": "@rambler-tech/typedoc-config",
-  "readme": "../../README.md",
+  "readme": "./README.md",
   "entryPoints": ["./index.ts"]
 }
