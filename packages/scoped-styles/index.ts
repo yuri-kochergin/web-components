@@ -1,31 +1,21 @@
 /* eslint-disable import/no-unused-modules */
+import {rootsRegistry, sheetsRegistry} from './registry'
+import {StyleSheet} from './style-sheet'
 
-class StyleSheet {
-  content: string
-  element?: HTMLStyleElement
-
-  constructor(content: string) {
-    this.content = content
-  }
+function appendStyles(...roots: HTMLElement[]) {
+  roots.forEach((root) => {
+    sheetsRegistry.forEach((sheet) => {
+      sheet.appendTo(root)
+    })
+  })
 }
 
-let sheetsRegistry: StyleSheet[] = []
-let stylesRoot: HTMLElement | undefined
-
-function injectStyles() {
-  if (stylesRoot) {
-    const fragment = document.createDocumentFragment()
-
+function removeStyles(...roots: HTMLElement[]) {
+  roots.forEach((root) => {
     sheetsRegistry.forEach((sheet) => {
-      if (!sheet.element) {
-        sheet.element = document.createElement('style')
-        sheet.element.textContent = sheet.content
-        fragment.append(sheet.element)
-      }
+      sheet.removeFrom(root)
     })
-
-    stylesRoot.append(fragment)
-  }
+  })
 }
 
 /**
@@ -50,15 +40,11 @@ function injectStyles() {
  * ```
  */
 export function registerStyles(...sheets: string[]) {
-  sheets.forEach((content) => {
-    const isExists = sheetsRegistry.some((sheet) => sheet.content === content)
-
-    if (!isExists) {
-      sheetsRegistry.push(new StyleSheet(content))
-    }
+  sheets.forEach((css) => {
+    sheetsRegistry.add(new StyleSheet(css))
   })
 
-  injectStyles()
+  appendStyles(...rootsRegistry)
 }
 
 /**
@@ -74,22 +60,26 @@ export function registerStyles(...sheets: string[]) {
  * ```
  */
 export function registerRoot(root: HTMLElement = document.head) {
-  stylesRoot = root
-
-  injectStyles()
+  if (!rootsRegistry.has(root)) {
+    rootsRegistry.add(root)
+    appendStyles(root)
+  }
 }
 
 /**
  * Unregister scoped root and remove styles
+ *
+ * ```tsx
+ * class App extends HTMLElement {
+ *   disconnectedCallback() {
+ *     unregisterRoot(this.shadowRoot)
+ *   }
+ * }
+ * ```
  */
 export function unregisterRoot(root: HTMLElement = document.head) {
-  if (stylesRoot === root) {
-    stylesRoot = undefined
-
-    sheetsRegistry.forEach((sheet) => {
-      sheet.element?.remove()
-    })
-
-    sheetsRegistry = []
+  if (rootsRegistry.has(root)) {
+    rootsRegistry.delete(root)
+    removeStyles(root)
   }
 }
