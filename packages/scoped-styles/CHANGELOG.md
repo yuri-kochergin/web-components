@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.2.0...@rambler-tech/scoped-styles@0.2.1) (2024-08-15)
+
+### Bug Fixes
+
+- **scoped-styles:** fix using multiple roots for same sheets ([b417ef2](https://github.com/rambler-digital-solutions/web-components/commit/b417ef22acfff954853b0f71a62fc528e1375657))
+
 # [0.2.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.1.0...@rambler-tech/scoped-styles@0.2.0) (2024-08-12)
 
 ### Features
