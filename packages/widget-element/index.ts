@@ -65,7 +65,10 @@ export class WidgetElement extends HTMLElement {
 
   /** Register a widget custom element */
   static register(tagName: string) {
-    customElements.define(tagName, this)
+    // NOTE: exclude multiple definition of a custom element
+    if (!customElements.get(tagName)) {
+      customElements.define(tagName, this)
+    }
   }
 
   /** Widget params (attributes map) */

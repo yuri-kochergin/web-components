@@ -34,6 +34,15 @@ class TestWidgetWithFallback extends TestWidget {
 TestWidget.register('test-widget')
 TestWidgetWithFallback.register('test-widget-fallback')
 
+test('register custom element once', () => {
+  expect(customElements.get('test-widget')).toBe(TestWidget)
+
+  // NOTE: try register multiple times
+  TestWidget.register('test-widget')
+
+  expect(customElements.get('test-widget')).toBe(TestWidget)
+})
+
 test('widget is ready', async () => {
   const widget = document.createElement('test-widget') as TestWidget
   const onReady = jest.fn()
