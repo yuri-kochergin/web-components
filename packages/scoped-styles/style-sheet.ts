@@ -6,22 +6,25 @@ export class StyleSheet {
     this.content = content
   }
 
-  appendTo(container: HTMLElement) {
-    if (!this.registry.has(container)) {
+  appendTo(
+    root: HTMLElement,
+    container: HTMLElement | DocumentFragment = root
+  ) {
+    if (!this.registry.has(root)) {
       const element = document.createElement('style')
 
       element.textContent = this.content
       container.append(element)
-      this.registry.set(container, element)
+      this.registry.set(root, element)
     }
   }
 
-  removeFrom(container: HTMLElement) {
-    const element = this.registry.get(container)
+  removeFrom(root: HTMLElement) {
+    const element = this.registry.get(root)
 
     if (element) {
       element.remove()
-      this.registry.delete(container)
+      this.registry.delete(root)
     }
   }
 }

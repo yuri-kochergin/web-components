@@ -4,9 +4,13 @@ import {StyleSheet} from './style-sheet'
 
 function appendStyles(...roots: HTMLElement[]) {
   roots.forEach((root) => {
+    const fragment = document.createDocumentFragment()
+
     sheetsRegistry.forEach((sheet) => {
-      sheet.appendTo(root)
+      sheet.appendTo(root, fragment)
     })
+
+    root.append(fragment)
   })
 }
 
