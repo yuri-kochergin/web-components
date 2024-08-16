@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.2.1...@rambler-tech/scoped-styles@0.2.2) (2024-08-16)
+
+### Bug Fixes
+
+- **scoped-styles:** fix append sheets with fragment ([1458388](https://github.com/rambler-digital-solutions/web-components/commit/145838857459a47fe173422968db157c2c4a398f))
+
 ## [0.2.1](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.2.0...@rambler-tech/scoped-styles@0.2.1) (2024-08-15)
 
 ### Bug Fixes
