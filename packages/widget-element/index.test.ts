@@ -132,3 +132,36 @@ test('show custom widget fallback', () => {
 
   expect(widget.root.innerHTML).toBe('')
 })
+
+test('emit event', () => {
+  const widget = document.createElement('test-widget') as TestWidget
+  const onEvent = jest.fn()
+
+  document.body.append(widget)
+
+  widget.addEventListener('customevent', onEvent)
+  widget.emit('customevent', {detail: 'foo'})
+
+  const [[event]] = onEvent.mock.calls
+
+  expect(onEvent).toHaveBeenCalledTimes(1)
+  expect(event.detail).toBe('foo')
+})
+
+test('emit error', () => {
+  const widget = document.createElement('test-widget') as TestWidget
+  const onError = jest.fn()
+
+  document.body.append(widget)
+
+  const error = new Error('widget error')
+
+  widget.addEventListener('error', onError)
+  widget.emitError(error)
+
+  const [[event]] = onError.mock.calls
+
+  expect(onError).toHaveBeenCalledTimes(1)
+  expect(event.error).toBe(error)
+  expect(event.message).toBe(error.message)
+})

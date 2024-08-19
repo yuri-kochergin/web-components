@@ -138,4 +138,9 @@ export class WidgetElement extends HTMLElement {
   emit(eventType: string, options?: CustomEventInit) {
     this.dispatchEvent(new CustomEvent(eventType, options))
   }
+
+  /** Dispatch error */
+  emitError(error: Error) {
+    this.dispatchEvent(new ErrorEvent('error', {error, message: error.message}))
+  }
 }
