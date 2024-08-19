@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.2.1...@rambler-tech/widget-element@0.3.0) (2024-08-19)
+
+### Features
+
+- **widget-element:** add emit error ([0d34e33](https://github.com/rambler-digital-solutions/web-components/commit/0d34e33f2be5058c6c5abea0d1c694f80dc23df3))
+
 ## [0.2.1](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.2.0...@rambler-tech/widget-element@0.2.1) (2024-08-15)
 
 ### Bug Fixes
