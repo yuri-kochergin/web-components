@@ -11,18 +11,18 @@ import {getAttributesFromElement, createElementFromHtml} from './utils'
  *
  * class CustomWidget extends WidgetElement {
  *   static get observedAttributes() {
- *     return ['appid']
+ *     return ['app-id']
  *   }
  *
  *   async initialize(shadowRoot: ShadowRoot) {
- *     const {appid} = this.params
+ *     const {appId} = this.params
  *     this.app = createApp(shadowRoot)
- *     await this.app.render({appid})
+ *     await this.app.render({appId})
  *   }
  *
  *   attributeChanged() {
- *     const {appid} = this.params
- *     this.app.render({appid})
+ *     const {appId} = this.params
+ *     this.app.render({appId})
  *   }
  *
  *   destroy() {
@@ -53,7 +53,7 @@ import {getAttributesFromElement, createElementFromHtml} from './utils'
  *   return (
  *     <div className="page">
  *       <h1>Hello World</h1>
- *       <custom-widget appid="1234" ref={widgetRef} />
+ *       <custom-widget app-id="1234" ref={widgetRef} />
  *     </div>
  *   )
  * }
@@ -71,7 +71,7 @@ export class WidgetElement extends HTMLElement {
     }
   }
 
-  /** Widget params (attributes map) */
+  /** Widget params (an attributes map with names given in the camelCase) */
   get params(): Record<string, any> {
     const params = getAttributesFromElement(this)
 
@@ -140,7 +140,9 @@ export class WidgetElement extends HTMLElement {
   }
 
   /** Dispatch error */
-  emitError(error: Error) {
-    this.dispatchEvent(new ErrorEvent('error', {error, message: error.message}))
+  emitError(error: Error, options?: ErrorEventInit) {
+    this.dispatchEvent(
+      new ErrorEvent('error', {error, message: error.message, ...options})
+    )
   }
 }

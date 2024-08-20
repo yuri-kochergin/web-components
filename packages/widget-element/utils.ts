@@ -6,14 +6,18 @@ export function createElementFromHtml(html: string) {
   return template.content.firstElementChild as HTMLElement
 }
 
-export function getAttributesFromElement(element: HTMLElement) {
+export function getAttributesFromElement({attributes}: HTMLElement) {
   const params: Record<string, any> = {}
 
-  for (let i = 0; i < element.attributes.length; i++) {
-    const node = element.attributes.item(i)
+  for (let i = 0; i < attributes.length; i++) {
+    const node = attributes.item(i)
 
     if (node != null) {
-      params[node.nodeName] = node.nodeValue
+      const nodeName = node.nodeName.replace(/-(\w)/g, (_, char) =>
+        char.toUpperCase()
+      )
+
+      params[nodeName] = node.nodeValue
     }
   }
 

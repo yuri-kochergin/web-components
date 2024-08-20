@@ -8,7 +8,7 @@ class TestWidget extends WidgetElement {
   destroyed = false
 
   static get observedAttributes() {
-    return ['test']
+    return ['test-id']
   }
 
   initialize(shadowRoot: ShadowRoot) {
@@ -62,18 +62,18 @@ test('widget is ready', async () => {
 test('widget attribute is changed', async () => {
   const widget = document.createElement('test-widget') as TestWidget
 
-  widget.setAttribute('test', '123')
+  widget.setAttribute('test-id', '123')
 
   expect(widget.changed).toBe(false)
-  expect(widget.params).toEqual({test: '123', provider: widget})
+  expect(widget.params).toEqual({testId: '123', provider: widget})
 
   document.body.append(widget)
-  widget.setAttribute('test', '456')
+  widget.setAttribute('test-id', '456')
 
   await Promise.resolve()
 
   expect(widget.changed).toBe(true)
-  expect(widget.params).toEqual({test: '456', provider: widget})
+  expect(widget.params).toEqual({testId: '456', provider: widget})
 })
 
 test('widget is destroyed', async () => {
