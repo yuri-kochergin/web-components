@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.3.0...@rambler-tech/widget-element@0.4.0) (2024-08-20)
+
+### Features
+
+- **widget-element:** map attributes to camelCase params ([e59dd2d](https://github.com/rambler-digital-solutions/web-components/commit/e59dd2d2209295d346f2978e8f122c04629241f3))
+
 # [0.3.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.2.1...@rambler-tech/widget-element@0.3.0) (2024-08-19)
 
 ### Features
