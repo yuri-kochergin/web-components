@@ -2,6 +2,7 @@ import {WidgetElement} from '.'
 
 class TestWidget extends WidgetElement {
   root: ShadowRoot
+  testId: string
 
   ready = false
   changed = false
@@ -65,7 +66,7 @@ test('widget attribute is changed', async () => {
   widget.setAttribute('test-id', '123')
 
   expect(widget.changed).toBe(false)
-  expect(widget.params).toEqual({testId: '123', provider: widget})
+  expect(widget.testId).toBe('123')
 
   document.body.append(widget)
   widget.setAttribute('test-id', '456')
@@ -73,7 +74,7 @@ test('widget attribute is changed', async () => {
   await Promise.resolve()
 
   expect(widget.changed).toBe(true)
-  expect(widget.params).toEqual({testId: '456', provider: widget})
+  expect(widget.testId).toBe('456')
 })
 
 test('widget is destroyed', async () => {

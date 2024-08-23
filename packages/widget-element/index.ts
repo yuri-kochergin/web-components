@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unused-modules */
-import {getAttributesFromElement, createElementFromHtml} from './utils'
 
 /**
  * Custom Element that helps you to create widgets.
@@ -10,18 +9,16 @@ import {getAttributesFromElement, createElementFromHtml} from './utils'
  * import {createApp} from './app'
  *
  * class CustomWidget extends WidgetElement {
- *   static get observedAttributes() {
- *     return ['app-id']
- *   }
+ *   static observedAttributes = ['app-id']
  *
  *   async initialize(shadowRoot: ShadowRoot) {
- *     const {appId} = this.params
+ *     const {appId} = this
  *     this.app = createApp(shadowRoot)
  *     await this.app.render({appId})
  *   }
  *
  *   attributeChanged() {
- *     const {appId} = this.params
+ *     const {appId} = this
  *     this.app.render({appId})
  *   }
  *
@@ -71,22 +68,17 @@ export class WidgetElement extends HTMLElement {
     }
   }
 
-  /** Widget params (an attributes map with names given in the camelCase) */
-  get params(): Record<string, any> {
-    const params = getAttributesFromElement(this)
-
-    return {...params, provider: this}
-  }
-
   async connectedCallback() {
-    this.#fallback = createElementFromHtml(this.fallback)
-    this.#shadowRoot = this.attachShadow({mode: 'closed'})
+    this.#shadowRoot = this.#createRoot()
+    this.#fallback = this.#createFallback()
 
     await this.initialize(this.#shadowRoot)
     this.emit('ready')
   }
 
-  attributeChangedCallback() {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    this.#updateAttribute(name, oldValue, newValue)
+
     if (this.#shadowRoot) {
       this.attributeChanged()
     }
@@ -95,6 +87,32 @@ export class WidgetElement extends HTMLElement {
   disconnectedCallback() {
     this.destroy()
     this.emit('destroy')
+  }
+
+  #createRoot() {
+    return this.attachShadow({mode: 'closed'})
+  }
+
+  #createFallback() {
+    const template = document.createElement('template')
+
+    template.innerHTML = this.fallback
+
+    return template.content.firstElementChild as HTMLElement
+  }
+
+  #updateAttribute(name: string, oldValue: string, newValue: string) {
+    if (newValue !== oldValue) {
+      const key = name.replace(/-(\w)/g, (_, char) =>
+        char.toUpperCase()
+      ) as keyof this
+
+      if (typeof newValue === 'undefined') {
+        delete this[key]
+      } else {
+        this[key] = newValue as any
+      }
+    }
   }
 
   /** Widget is initialized, and shadow root is attached */
