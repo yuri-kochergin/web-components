@@ -2,6 +2,7 @@ import {WidgetElement} from '.'
 
 class TestWidget extends WidgetElement {
   root: ShadowRoot
+  testId: string
 
   ready = false
   changed = false
@@ -43,6 +44,40 @@ test('register custom element once', () => {
   expect(customElements.get('test-widget')).toBe(TestWidget)
 })
 
+test('use widget as element', () => {
+  const widget = document.createElement('test-widget') as TestWidget
+
+  widget.setAttribute('test-id', '123')
+
+  document.body.append(widget)
+
+  expect(document.querySelector('test-widget')).toStrictEqual(widget)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+})
+
+test('use widget as constructor', () => {
+  const widget = new TestWidget()
+
+  widget.testId = '123'
+
+  document.body.append(widget)
+
+  expect(document.querySelector('test-widget')).toStrictEqual(widget)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+})
+
+test('use widget as constructor with properties', () => {
+  const widget = new TestWidget({testId: 123})
+
+  document.body.append(widget)
+
+  expect(document.querySelector('test-widget')).toStrictEqual(widget)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+})
+
 test('widget is ready', async () => {
   const widget = document.createElement('test-widget') as TestWidget
   const onReady = jest.fn()
@@ -59,13 +94,14 @@ test('widget is ready', async () => {
   expect(onReady).toHaveBeenCalledTimes(1)
 })
 
-test('widget attribute is changed', async () => {
+test('widget is changed when attribute is changed', async () => {
   const widget = document.createElement('test-widget') as TestWidget
 
   widget.setAttribute('test-id', '123')
 
   expect(widget.changed).toBe(false)
-  expect(widget.params).toEqual({testId: '123', provider: widget})
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
 
   document.body.append(widget)
   widget.setAttribute('test-id', '456')
@@ -73,7 +109,27 @@ test('widget attribute is changed', async () => {
   await Promise.resolve()
 
   expect(widget.changed).toBe(true)
-  expect(widget.params).toEqual({testId: '456', provider: widget})
+  expect(widget.testId).toBe('456')
+  expect(widget.getAttribute('test-id')).toBe('456')
+})
+
+test('widget is changed when property is changed', async () => {
+  const widget = document.createElement('test-widget') as TestWidget
+
+  widget.testId = '123'
+
+  expect(widget.changed).toBe(false)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+
+  document.body.append(widget)
+  widget.testId = '456'
+
+  await Promise.resolve()
+
+  expect(widget.changed).toBe(true)
+  expect(widget.testId).toBe('456')
+  expect(widget.getAttribute('test-id')).toBe('456')
 })
 
 test('widget is destroyed', async () => {

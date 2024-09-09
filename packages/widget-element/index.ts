@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unused-modules */
-import {getAttributesFromElement, createElementFromHtml} from './utils'
 
 /**
  * Custom Element that helps you to create widgets.
@@ -9,19 +8,17 @@ import {getAttributesFromElement, createElementFromHtml} from './utils'
  * import {WidgetElement} from '@rambler-tech/widget-element'
  * import {createApp} from './app'
  *
- * class CustomWidget extends WidgetElement {
- *   static get observedAttributes() {
- *     return ['app-id']
- *   }
+ * export class CustomWidget extends WidgetElement {
+ *   static observedAttributes = ['app-id']
  *
  *   async initialize(shadowRoot: ShadowRoot) {
- *     const {appId} = this.params
+ *     const {appId} = this
  *     this.app = createApp(shadowRoot)
  *     await this.app.render({appId})
  *   }
  *
  *   attributeChanged() {
- *     const {appId} = this.params
+ *     const {appId} = this
  *     this.app.render({appId})
  *   }
  *
@@ -33,9 +30,10 @@ import {getAttributesFromElement, createElementFromHtml} from './utils'
  * CustomWidget.register('custom-widget')
  * ```
  *
- * Use a widget
+ * Use a widget as element
  * ```tsx
  * import React from 'react'
+ * import from './components/custom-widget'
  *
  * export function Page() {
  *   const widgetRef = useRef()
@@ -58,6 +56,36 @@ import {getAttributesFromElement, createElementFromHtml} from './utils'
  *   )
  * }
  * ```
+ *
+ * Use a widget as constructor
+ *
+ * ```tsx
+ * import React from 'react'
+ * import {CustomWidget} from './components/custom-widget'
+ *
+ * export function Page() {
+ *   const containerRef = useRef()
+ *
+ *   useEffect(() => {
+ *     const widget = new CustomWidget({appId: '1234'})
+ *     const onReady = () => {
+ *       // Widget is ready
+ *     }
+ *     widget.addEventListener('ready', onReady)
+ *     containerRef.current.appendChild(widget)
+ *     return () => {
+ *       widget.removeEventListener('ready', onReady)
+ *       containerRef.current.removeChild(widget)
+ *     }
+ *   }, [])
+ *
+ *   return (
+ *     <div className="page" ref={containerRef}>
+ *       <h1>Hello World</h1>
+ *     </div>
+ *   )
+ * }
+ * ```
  */
 export class WidgetElement extends HTMLElement {
   #fallback!: HTMLElement
@@ -71,16 +99,34 @@ export class WidgetElement extends HTMLElement {
     }
   }
 
-  /** Widget params (an attributes map with names given in the camelCase) */
-  get params(): Record<string, any> {
-    const params = getAttributesFromElement(this)
+  /** Widget custom element constructor */
+  constructor(properties: Record<string, any> = {}) {
+    super()
 
-    return {...params, provider: this}
+    const {observedAttributes} = this.constructor as any
+
+    observedAttributes.forEach((attributeName: string) => {
+      const name = attributeName.replace(/-(\w)/g, (_, char) =>
+        char.toUpperCase()
+      ) as keyof this
+
+      Object.defineProperty(this, name, {
+        get() {
+          return this.getAttribute(attributeName)
+        },
+        set(value: string) {
+          this.setAttribute(attributeName, value)
+        },
+        enumerable: true
+      })
+    })
+
+    Object.assign(this, properties)
   }
 
   async connectedCallback() {
-    this.#fallback = createElementFromHtml(this.fallback)
-    this.#shadowRoot = this.attachShadow({mode: 'closed'})
+    this.#shadowRoot = this.#createRoot()
+    this.#fallback = this.#createFallback()
 
     await this.initialize(this.#shadowRoot)
     this.emit('ready')
@@ -95,6 +141,18 @@ export class WidgetElement extends HTMLElement {
   disconnectedCallback() {
     this.destroy()
     this.emit('destroy')
+  }
+
+  #createRoot() {
+    return this.attachShadow({mode: 'closed'})
+  }
+
+  #createFallback() {
+    const template = document.createElement('template')
+
+    template.innerHTML = this.fallback
+
+    return template.content.firstElementChild as HTMLElement
   }
 
   /** Widget is initialized, and shadow root is attached */
