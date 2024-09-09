@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.5.0...@rambler-tech/widget-element@0.5.1) (2024-09-09)
+
+### Bug Fixes
+
+- **widget-element:** add generic for element properties, fix docs ([0202c28](https://github.com/rambler-digital-solutions/web-components/commit/0202c2856cee2cb2848cd517d346e9b599dea4ca))
+
 # [0.5.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.4.0...@rambler-tech/widget-element@0.5.0) (2024-09-09)
 
 ### Features
