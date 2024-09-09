@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.4.0...@rambler-tech/widget-element@0.5.0) (2024-09-09)
+
+### Features
+
+- **widget-element:** support using widget element as constructor ([4bb86ea](https://github.com/rambler-digital-solutions/web-components/commit/4bb86ea3d507128b7aaaab4c1b2161e8d99291d8))
+
 # [0.4.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.3.0...@rambler-tech/widget-element@0.4.0) (2024-08-20)
 
 ### Features
