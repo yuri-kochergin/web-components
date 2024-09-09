@@ -94,13 +94,14 @@ test('widget is ready', async () => {
   expect(onReady).toHaveBeenCalledTimes(1)
 })
 
-test('widget attribute is changed', async () => {
+test('widget is changed when attribute is changed', async () => {
   const widget = document.createElement('test-widget') as TestWidget
 
   widget.setAttribute('test-id', '123')
 
   expect(widget.changed).toBe(false)
   expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
 
   document.body.append(widget)
   widget.setAttribute('test-id', '456')
@@ -109,6 +110,26 @@ test('widget attribute is changed', async () => {
 
   expect(widget.changed).toBe(true)
   expect(widget.testId).toBe('456')
+  expect(widget.getAttribute('test-id')).toBe('456')
+})
+
+test('widget is changed when property is changed', async () => {
+  const widget = document.createElement('test-widget') as TestWidget
+
+  widget.testId = '123'
+
+  expect(widget.changed).toBe(false)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+
+  document.body.append(widget)
+  widget.testId = '456'
+
+  await Promise.resolve()
+
+  expect(widget.changed).toBe(true)
+  expect(widget.testId).toBe('456')
+  expect(widget.getAttribute('test-id')).toBe('456')
 })
 
 test('widget is destroyed', async () => {
