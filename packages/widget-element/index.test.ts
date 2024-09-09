@@ -44,6 +44,40 @@ test('register custom element once', () => {
   expect(customElements.get('test-widget')).toBe(TestWidget)
 })
 
+test('use widget as element', () => {
+  const widget = document.createElement('test-widget') as TestWidget
+
+  widget.setAttribute('test-id', '123')
+
+  document.body.append(widget)
+
+  expect(document.querySelector('test-widget')).toStrictEqual(widget)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+})
+
+test('use widget as constructor', () => {
+  const widget = new TestWidget()
+
+  widget.testId = '123'
+
+  document.body.append(widget)
+
+  expect(document.querySelector('test-widget')).toStrictEqual(widget)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+})
+
+test('use widget as constructor with properties', () => {
+  const widget = new TestWidget({testId: 123})
+
+  document.body.append(widget)
+
+  expect(document.querySelector('test-widget')).toStrictEqual(widget)
+  expect(widget.testId).toBe('123')
+  expect(widget.getAttribute('test-id')).toBe('123')
+})
+
 test('widget is ready', async () => {
   const widget = document.createElement('test-widget') as TestWidget
   const onReady = jest.fn()

@@ -8,7 +8,7 @@
  * import {WidgetElement} from '@rambler-tech/widget-element'
  * import {createApp} from './app'
  *
- * class CustomWidget extends WidgetElement {
+ * export class CustomWidget extends WidgetElement {
  *   static observedAttributes = ['app-id']
  *
  *   async initialize(shadowRoot: ShadowRoot) {
@@ -30,9 +30,10 @@
  * CustomWidget.register('custom-widget')
  * ```
  *
- * Use a widget
+ * Use a widget as element
  * ```tsx
  * import React from 'react'
+ * import from './components/custom-widget'
  *
  * export function Page() {
  *   const widgetRef = useRef()
@@ -55,6 +56,36 @@
  *   )
  * }
  * ```
+ *
+ * Use a widget as constructor
+ *
+ * ```tsx
+ * import React from 'react'
+ * import {CustomWidget} from './components/custom-widget'
+ *
+ * export function Page() {
+ *   const containerRef = useRef()
+ *
+ *   useEffect(() => {
+ *     const widget = new CustomWidget({appId: '1234'})
+ *     const onReady = () => {
+ *       // Widget is ready
+ *     }
+ *     widget.addEventListener('ready', onReady)
+ *     containerRef.current.appendChild(widget)
+ *     return () => {
+ *       widget.removeEventListener('ready', onReady)
+ *       containerRef.current.removeChild(widget)
+ *     }
+ *   }, [])
+ *
+ *   return (
+ *     <div className="page" ref={containerRef}>
+ *       <h1>Hello World</h1>
+ *     </div>
+ *   )
+ * }
+ * ```
  */
 export class WidgetElement extends HTMLElement {
   #fallback!: HTMLElement
@@ -68,6 +99,31 @@ export class WidgetElement extends HTMLElement {
     }
   }
 
+  /** Widget custom element constructor */
+  constructor(properties: Record<string, any> = {}) {
+    super()
+
+    const {observedAttributes} = this.constructor as any
+
+    observedAttributes.forEach((attributeName: string) => {
+      const name = attributeName.replace(/-(\w)/g, (_, char) =>
+        char.toUpperCase()
+      ) as keyof this
+
+      Object.defineProperty(this, name, {
+        get() {
+          return this.getAttribute(attributeName)
+        },
+        set(value: string) {
+          this.setAttribute(attributeName, value)
+        },
+        enumerable: true
+      })
+    })
+
+    Object.assign(this, properties)
+  }
+
   async connectedCallback() {
     this.#shadowRoot = this.#createRoot()
     this.#fallback = this.#createFallback()
@@ -76,9 +132,7 @@ export class WidgetElement extends HTMLElement {
     this.emit('ready')
   }
 
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    this.#updateAttribute(name, oldValue, newValue)
-
+  attributeChangedCallback() {
     if (this.#shadowRoot) {
       this.attributeChanged()
     }
@@ -99,20 +153,6 @@ export class WidgetElement extends HTMLElement {
     template.innerHTML = this.fallback
 
     return template.content.firstElementChild as HTMLElement
-  }
-
-  #updateAttribute(name: string, oldValue: string, newValue: string) {
-    if (newValue !== oldValue) {
-      const key = name.replace(/-(\w)/g, (_, char) =>
-        char.toUpperCase()
-      ) as keyof this
-
-      if (typeof newValue === 'undefined') {
-        delete this[key]
-      } else {
-        this[key] = newValue as any
-      }
-    }
   }
 
   /** Widget is initialized, and shadow root is attached */
