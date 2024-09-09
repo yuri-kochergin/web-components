@@ -1,5 +1,10 @@
 /* eslint-disable import/no-unused-modules */
 
+type NonFunctionProperties<T> = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  [K in keyof T as T[K] extends Function ? never : K]: T[K]
+}
+
 /**
  * Custom Element that helps you to create widgets.
  *
@@ -68,9 +73,7 @@
  * </script>
  * ```
  */
-export class WidgetElement<
-  T extends Record<string, any> = Record<string, any>
-> extends HTMLElement {
+export class WidgetElement<T = any> extends HTMLElement {
   #fallback!: HTMLElement
   #shadowRoot?: ShadowRoot
 
@@ -83,7 +86,7 @@ export class WidgetElement<
   }
 
   /** Widget custom element constructor */
-  constructor(properties?: T) {
+  constructor(properties?: NonFunctionProperties<T>) {
     super()
 
     const {observedAttributes} = this.constructor as any
