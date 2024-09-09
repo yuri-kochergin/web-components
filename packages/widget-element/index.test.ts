@@ -1,6 +1,10 @@
 import {WidgetElement} from '.'
 
-class TestWidget extends WidgetElement {
+interface TestWidgetAttributes {
+  testId: string
+}
+
+class TestWidget extends WidgetElement<TestWidgetAttributes> {
   root: ShadowRoot
   testId: string
 
@@ -69,7 +73,7 @@ test('use widget as constructor', () => {
 })
 
 test('use widget as constructor with properties', () => {
-  const widget = new TestWidget({testId: 123})
+  const widget = new TestWidget({testId: '123'})
 
   document.body.append(widget)
 

@@ -31,63 +31,46 @@
  * ```
  *
  * Use a widget as element
- * ```tsx
- * import React from 'react'
- * import from './components/custom-widget'
+ * ```html
+ * <custom-widget app-id="1234"></custom-widget>
+ * <script type="module">
+ *   import './components/custom-widget'
  *
- * export function Page() {
- *   const widgetRef = useRef()
- *
- *   useEffect(() => {
- *     const onReady = () => {
- *       // Widget is ready
- *     }
- *     widgetRef.current.addEventListener('ready', onReady)
- *     return () => {
- *       widgetRef.current.removeEventListener('ready', onReady)
- *     }
- *   }, [])
- *
- *   return (
- *     <div className="page">
- *       <h1>Hello World</h1>
- *       <custom-widget app-id="1234" ref={widgetRef} />
- *     </div>
- *   )
- * }
+ *   const widget = document.querySelector('custom-widget')
+ *   widget.addEventListener('ready', () => {
+ *     // Widget is ready
+ *   })
+ * </script>
  * ```
  *
- * Use a widget as constructor
+ * Or
+ * ```html
+ * <script type="module">
+ *   import './components/custom-widget'
  *
- * ```tsx
- * import React from 'react'
- * import {CustomWidget} from './components/custom-widget'
+ *   const widget = document.createElement('custom-widget')
+ *   widget.appId = '1234'
+ *   widget.addEventListener('ready', () => {
+ *     // Widget is ready
+ *   })
+ * </script>
+ * ```
  *
- * export function Page() {
- *   const containerRef = useRef()
+ * Or use a widget as constructor
+ * ```html
+ * <script type="module">
+ *   import {WidgetElement} from './components/custom-widget'
  *
- *   useEffect(() => {
- *     const widget = new CustomWidget({appId: '1234'})
- *     const onReady = () => {
- *       // Widget is ready
- *     }
- *     widget.addEventListener('ready', onReady)
- *     containerRef.current.appendChild(widget)
- *     return () => {
- *       widget.removeEventListener('ready', onReady)
- *       containerRef.current.removeChild(widget)
- *     }
- *   }, [])
- *
- *   return (
- *     <div className="page" ref={containerRef}>
- *       <h1>Hello World</h1>
- *     </div>
- *   )
- * }
+ *   const widget = new CustomWidget({appId: '1234'})
+ *   widget.addEventListener('ready', () => {
+ *     // Widget is ready
+ *   })
+ * </script>
  * ```
  */
-export class WidgetElement extends HTMLElement {
+export class WidgetElement<
+  T extends Record<string, any> = Record<string, any>
+> extends HTMLElement {
   #fallback!: HTMLElement
   #shadowRoot?: ShadowRoot
 
@@ -100,7 +83,7 @@ export class WidgetElement extends HTMLElement {
   }
 
   /** Widget custom element constructor */
-  constructor(properties: Record<string, any> = {}) {
+  constructor(properties?: T) {
     super()
 
     const {observedAttributes} = this.constructor as any
@@ -121,7 +104,7 @@ export class WidgetElement extends HTMLElement {
       })
     })
 
-    Object.assign(this, properties)
+    Object.assign(this, properties ?? {})
   }
 
   async connectedCallback() {
