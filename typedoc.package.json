@@ -1,5 +1,6 @@
 {
   "extends": "@rambler-tech/typedoc-config",
   "readme": "./README.md",
-  "entryPoints": ["./index.ts"]
+  "entryPoints": ["./index.ts"],
+  "excludeProtected": false
 }

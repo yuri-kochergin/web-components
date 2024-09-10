@@ -143,15 +143,15 @@ export class WidgetElement<T = any> extends HTMLElement {
 
   /** Widget is initialized, and shadow root is attached */
   // eslint-disable-next-line no-empty-function
-  initialize(_shadowRoot: ShadowRoot) {}
+  protected initialize(_shadowRoot: ShadowRoot) {}
 
   /** An attribute of widget is changed */
   // eslint-disable-next-line no-empty-function
-  attributeChanged() {}
+  protected attributeChanged() {}
 
   /** Widget is destroyed */
   // eslint-disable-next-line no-empty-function
-  destroy() {}
+  protected destroy() {}
 
   /**
    * Get fallback (slot element by default)
@@ -164,7 +164,7 @@ export class WidgetElement<T = any> extends HTMLElement {
    * }
    * ```
    */
-  get fallback() {
+  protected get fallback() {
     return `<slot></slot>`
   }
 
