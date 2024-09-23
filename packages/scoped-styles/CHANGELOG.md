@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.2.2...@rambler-tech/scoped-styles@0.3.0) (2024-09-23)
+
+### Features
+
+- **scoped-styles:** add extract styles ([6ea0b68](https://github.com/rambler-digital-solutions/web-components/commit/6ea0b68d5927149d6544c4e70cbd97197b2bdeea))
+
 ## [0.2.2](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.2.1...@rambler-tech/scoped-styles@0.2.2) (2024-08-16)
 
 ### Bug Fixes

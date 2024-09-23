@@ -1,6 +1,6 @@
 {
   "name": "@rambler-tech/scoped-styles",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "main": "dist",
   "module": "dist",
   "types": "dist/index.d.ts",
