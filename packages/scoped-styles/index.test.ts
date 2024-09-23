@@ -1,4 +1,4 @@
-import {registerRoot, registerStyles, unregisterRoot} from '.'
+import {registerRoot, registerStyles, unregisterRoot, extractStyles} from '.'
 import {sheetsRegistry} from './registry'
 
 test('append styles to document head', () => {
@@ -54,6 +54,14 @@ test('register multiple roots for same sheets', () => {
 
   unregisterRoot(root)
   unregisterRoot(customRoot)
+})
+
+test('extract styles', () => {
+  const sheet = ':root { background-color: white; }'
+
+  registerStyles(sheet)
+
+  expect(extractStyles()).toEqual([sheet])
 })
 
 afterEach(() => {

@@ -52,6 +52,23 @@ export function registerStyles(...sheets: string[]) {
 }
 
 /**
+ * Extract scoped style sheets as string
+ *
+ * ```tsx
+ * const styleSheets = extractStyles()
+ *
+ * styleSheets.forEach((sheetText) => {
+ *   const style = document.createElement('style')
+ *   style.textContent = sheetText
+ *   document.head.append(style)
+ * })
+ * ```
+ */
+export function extractStyles() {
+  return Array.from(sheetsRegistry).map((sheet) => sheet.toString())
+}
+
+/**
  * Register scoped root and inject styles
  *
  * ```tsx

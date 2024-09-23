@@ -27,4 +27,8 @@ export class StyleSheet {
       this.registry.delete(root)
     }
   }
+
+  toString() {
+    return this.content
+  }
 }
