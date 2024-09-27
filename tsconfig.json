@@ -1,7 +1,7 @@
 {
   "extends": "@rambler-tech/ts-config/base",
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "module": "esnext",
     "sourceMap": false,
     "strictPropertyInitialization": false,

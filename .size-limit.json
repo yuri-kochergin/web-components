@@ -1,10 +1,10 @@
 [
   {
     "path": "packages/scoped-styles/dist/index.js",
-    "limit": "555 B"
+    "limit": "350 B"
   },
   {
     "path": "packages/widget-element/dist/index.js",
-    "limit": "975 B"
+    "limit": "850 B"
   }
 ]
