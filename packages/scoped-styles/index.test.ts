@@ -32,6 +32,21 @@ test('append styles to some element', () => {
   unregisterRoot(root)
 })
 
+test('append styles once', () => {
+  const sheet = ':root { background-color: white; }'
+
+  registerStyles(sheet)
+  registerStyles(sheet)
+  registerRoot()
+
+  const headStyle = document.head.querySelector('style')
+
+  expect(headStyle?.textContent).toBe(sheet)
+  expect(document.head.querySelectorAll('style')).toHaveLength(1)
+
+  unregisterRoot()
+})
+
 test('register multiple roots for same sheets', () => {
   const sheet = ':host { background-color: red; }'
   const root = document.createElement('div')

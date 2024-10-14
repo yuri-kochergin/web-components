@@ -45,7 +45,7 @@ function removeStyles(...roots: HTMLElement[]) {
  */
 export function registerStyles(...sheets: string[]) {
   sheets.forEach((css) => {
-    sheetsRegistry.add(new StyleSheet(css))
+    sheetsRegistry.set(css, new StyleSheet(css))
   })
 
   appendStyles(...rootsRegistry)
@@ -65,7 +65,7 @@ export function registerStyles(...sheets: string[]) {
  * ```
  */
 export function extractStyles() {
-  return Array.from(sheetsRegistry).map((sheet) => sheet.toString())
+  return Array.from(sheetsRegistry.values()).map((sheet) => sheet.toString())
 }
 
 /**
