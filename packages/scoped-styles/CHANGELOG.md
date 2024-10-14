@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.3.1...@rambler-tech/scoped-styles@0.3.2) (2024-10-14)
+
+### Bug Fixes
+
+- **scoped-styles:** fix styles duplication ([d61bdeb](https://github.com/rambler-digital-solutions/web-components/commit/d61bdeba57cab147845e0c791f012132fcbdb0da))
+
 ## [0.3.1](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/scoped-styles@0.3.0...@rambler-tech/scoped-styles@0.3.1) (2024-09-27)
 
 **Note:** Version bump only for package @rambler-tech/scoped-styles
