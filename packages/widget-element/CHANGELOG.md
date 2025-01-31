@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.5.4...@rambler-tech/widget-element@0.5.5) (2025-01-31)
+
+### Bug Fixes
+
+- **widget-element:** fix shadow root mode ([5325699](https://github.com/rambler-digital-solutions/web-components/commit/5325699a3efee46f850406e43861fb332888b8f3))
+
 ## [0.5.4](https://github.com/rambler-digital-solutions/web-components/compare/@rambler-tech/widget-element@0.5.3...@rambler-tech/widget-element@0.5.4) (2024-09-27)
 
 **Note:** Version bump only for package @rambler-tech/widget-element
