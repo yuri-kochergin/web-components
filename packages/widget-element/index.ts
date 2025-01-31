@@ -76,6 +76,7 @@ type NonFunctionProperties<T> = {
 export class WidgetElement<T = any> extends HTMLElement {
   #fallback!: HTMLElement
   #shadowRoot?: ShadowRoot
+  static shadowRootMode: 'closed' | 'open' = 'closed'
 
   /** Register a widget custom element */
   static register(tagName: string) {
@@ -107,6 +108,15 @@ export class WidgetElement<T = any> extends HTMLElement {
       })
     })
 
+    Object.defineProperty(this, 'shadowRootMode', {
+      get() {
+        return (this.constructor as any).shadowRootMode
+      },
+      set(value: 'closed' | 'open') {
+        ;(this.constructor as any).shadowRootMode = value
+      }
+    })
+
     Object.assign(this, properties ?? {})
   }
 
@@ -130,7 +140,7 @@ export class WidgetElement<T = any> extends HTMLElement {
   }
 
   #createRoot() {
-    return this.attachShadow({mode: 'closed'})
+    return this.attachShadow({mode: this.shadowRootMode})
   }
 
   #createFallback() {
